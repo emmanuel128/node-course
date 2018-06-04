@@ -1,4 +1,4 @@
-console.log('Starting app.js')
+// console.log('Starting app.js')
 
 const fs = require('fs')
 const _ = require('lodash')
@@ -13,18 +13,22 @@ var command = argv._[0]
 
 if (command === 'add') {
     var note = notes.addNote(argv.title, argv.body)
-    if(note){
-        console.log('Note created')
-        console.log('Title: ', note.title)
-        console.log('BodyL ', note.body)
+    if (note) {
+        notes.logNote(note);
     }
-    else{
+    else {
         console.log('Note Title Taken')
     }
 } else if (command === 'list') {
     notes.getAll();
 } else if (command === 'read') {
-    notes.getNote(argv.title);
+    var note = notes.getNote(argv.title);
+    if (note) {
+        notes.logNote(note);
+    }
+    else {
+        console.log('Note not Found')
+    }
 } else if (command === 'remove') {
     notes.removeNote(argv.title);
 } else {
