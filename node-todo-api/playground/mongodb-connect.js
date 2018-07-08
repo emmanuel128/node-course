@@ -19,7 +19,7 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp',
         //         return console.log('Unable to insert todo', error);
         //     }
 
-        //     console.log(JSON.stringify(result.insertedId, null, 2));
+        //     console.log(JSON.stringify(result.ops, null, 2));
         // });
 
         // Insert User
