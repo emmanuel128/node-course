@@ -1,80 +1,32 @@
-var mongoose = require('mongoose');
+var express = require('express');
+var bodyParser = require('body-parser');
 
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/TodoApp', { useNewUrlParser: true });
+var { mongoose } = require('./db/mongoose');
+var { Todo } = require('./models/todo');
+var { User } = require('./models/user');
 
-var Todo = mongoose.model('Todo', {
-    text: {
-        type: String,
-        required: true,
-        minLength: 1,
-        trim: true
-    },
-    completed: {
-        type: Boolean,
-        default: false
-    },
-    completedAt: {
-        type: Number,
-        default: null
-    }
-});
+const PORT = 3000;
 
-// var otherTodo = new Todo({
-//     text: 'Other Todo',
-//     completed: true,
-// });
+var app = express();
 
-// otherTodo.save().then((doc) => {
-//     console.log('Saved todo.', doc);
-//     disconnect();
-// }, (error) => {
-//     console.log('Unable to save todo.', error);
-//     disconnect();
-// });
+app.use(bodyParser.json());
 
-// User
-var User = mongoose.model('User', {
-    email: {
-        type: String,
-        required: true,
-        minLength: 1,
-        trim: true
-    },
-    name: {
-        type: String,
-        required: true,
-        minLength: 1,
-        trim: true
-    },
-    location: {
-        type: String,
-        default: null
-    },
-    age: {
-        type: Number,
-        required: true
-    }
-});
-
-var newUser = new User({
-    email: 'email@domain.com',
-    name: 'Emmanuel',
-    age: 24
-});
-
-newUser.save().then((doc) => {
-    console.log('Saved user.', doc);
-    disconnect();
-}, (error) => {
-    console.log('Unable to save user.', error);
-    disconnect();
-});
-
-function disconnect() {
-    mongoose.disconnect().then(() => {
-        console.log('closed');
-    }, error => {
-        console.log('error', error);
+app.post('/todos', (req, res) => {
+    var todo = new Todo({
+        text: req.body.text
     });
-}
+
+    todo.save().then((doc) => {
+        res.send(doc);
+    }, (error) => {
+        res.status(400).send(error);
+    });
+});
+
+app.get('', (req, res) => {
+
+});
+
+app.listen(PORT, () => {
+    console.log(`Running on http://localhost:${PORT}`); 
+});
