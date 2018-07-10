@@ -30,7 +30,7 @@ app.get('/todos', (req, res) => {
         } else if (todos.length == 0) {
             return res.status(404).send(todos);
         }
-        res.send(todos);
+        res.send({ todos });
     }).catch((err) => {
         res.status(500).send(err);
     });
