@@ -24,6 +24,16 @@ app.post('/todos', (req, res) => {
 });
 
 app.get('/todos', (req, res) => {
+    Todo.find((err, todos) => {
+        if (err) {
+            return res.status(500).send(err);
+        } else if (todos.length == 0) {
+            return res.status(404).send(todos);
+        }
+        res.send(todos);
+    }).catch((err) => {
+        res.status(500).send(err);
+    });
 });
 
 app.listen(PORT, () => {
