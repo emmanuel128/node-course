@@ -8,7 +8,7 @@ var { mongoose } = require('./db/mongoose');
 var { Todo } = require('./models/todo');
 var { User } = require('./models/user');
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 var app = express();
 
@@ -104,7 +104,7 @@ app.patch('/todos/:id', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Running on http://localhost:${PORT}`);
+    console.log(`Running on ${PORT}`);
 });
 
 module.exports = { app };
